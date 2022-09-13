@@ -1,7 +1,13 @@
-import { ReportStatusEnum } from './models/report-status.enum';
 import { AppService } from './app.service';
-import { Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-import { type } from 'os';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 
 @Controller('report/:type')
 export class AppController {
@@ -18,17 +24,21 @@ export class AppController {
   }
 
   @Post()
-  createReport() {
-    console.log('created');
+  createReport(@Param('type') type: string, @Body() body: { title: string }) {
+    return this.appService.addNewReport(type, body);
   }
 
   @Put(':id')
-  modifyReport() {
-    console.log('modify');
+  modifyReport(
+    @Param('type') type: string,
+    @Param('id') id: string,
+    @Body() body: { title: string },
+  ) {
+    return this.appService.modifyReport(type, id, body);
   }
 
   @Delete(':id')
-  deleteReport() {
-    console.log('deleted');
+  deleteReport(@Param('type') type: string, @Param('id') id: string) {
+    return this.appService.deleteReport(type, id);
   }
 }
