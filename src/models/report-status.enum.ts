@@ -1,4 +1,4 @@
 export enum ReportStatusEnum {
   Increase = 1,
-  decrease = 2,
+  Decrease = 2,
 }
