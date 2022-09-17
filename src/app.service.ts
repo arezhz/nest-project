@@ -7,38 +7,29 @@ import { v4 as uuid } from 'uuid';
 
 @Injectable()
 export class AppService {
-  checkEnumType(type: string): ReportStatusEnum {
-    return type === 'increase'
-      ? ReportStatusEnum.Increase
-      : ReportStatusEnum.Decrease;
+
+  allReports(type: ReportStatusEnum) {
+    return data.filter((f) => f.status === type);
   }
 
-  allReports(type: string) {
-    const reportStatus: ReportStatusEnum = this.checkEnumType(type);
-    return data.filter((f) => f.status === reportStatus);
-  }
-
-  reportByID(type: string, id: string) {
-    const reportStatus: ReportStatusEnum = this.checkEnumType(type);
-    const dataList = data.filter((f) => f.status === reportStatus);
+  reportByID(type: ReportStatusEnum, id: string) {
+    const dataList = data.filter((f) => f.status === type);
     return dataList.find((f) => f.uuid === id) || {};
   }
 
-  addNewReport(type: string, body: { title: string }) {
-    const reportStatus: ReportStatusEnum = this.checkEnumType(type);
+  addNewReport(type: ReportStatusEnum, body: { title: string }) {
     const payload: IReportDetailsModel = {
-      title: body.title,
+      ...body,
       uuid: uuid(),
-      status: reportStatus,
+      status: type,
     };
     data.push(payload);
     return payload.uuid;
   }
 
-  modifyReport(type: string, id: string, body: { title: string }) {
-    const reportStatus: ReportStatusEnum = this.checkEnumType(type);
+  modifyReport(type: ReportStatusEnum, id: string, body: { title: string }) {
     const currentID = data
-      .filter((f) => f.status === reportStatus)
+      .filter((f) => f.status === type)
       .findIndex((f) => f.uuid === id);
     if (currentID >= 0) {
       data[currentID].title = body.title;
