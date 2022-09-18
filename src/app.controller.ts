@@ -5,7 +5,6 @@ import {
   Controller,
   Delete,
   Get,
-  HttpStatus,
   Param,
   ParseEnumPipe,
   Post,
@@ -19,13 +18,17 @@ export class AppController {
   constructor(private readonly appService: AppService) { }
 
   @Get('')
-  getReports(@Param('type', ParseIntPipe, new ParseEnumPipe(ReportStatusEnum)) type: ReportStatusEnum) {
+  getReports(
+    @Param('type', ParseIntPipe, new ParseEnumPipe(ReportStatusEnum))
+    type: ReportStatusEnum,
+  ) {
     return this.appService.allReports(type);
   }
 
   @Get(':id')
   getReportByID(
-    @Param('type', ParseIntPipe, new ParseEnumPipe(ReportStatusEnum)) type: ReportStatusEnum,
+    @Param('type', ParseIntPipe, new ParseEnumPipe(ReportStatusEnum))
+    type: ReportStatusEnum,
     @Param('id', ParseUUIDPipe) id: string,
   ) {
     return this.appService.reportByID(type, id);
@@ -33,7 +36,8 @@ export class AppController {
 
   @Post()
   createReport(
-    @Param('type', ParseIntPipe, new ParseEnumPipe(ReportStatusEnum)) type: ReportStatusEnum,
+    @Param('type', ParseIntPipe, new ParseEnumPipe(ReportStatusEnum))
+    type: ReportStatusEnum,
     @Body() body: createReportsBodyDto,
   ) {
     return this.appService.addNewReport(type, body);
@@ -41,7 +45,8 @@ export class AppController {
 
   @Put(':id')
   modifyReport(
-    @Param('type', ParseIntPipe, new ParseEnumPipe(ReportStatusEnum)) type: ReportStatusEnum,
+    @Param('type', ParseIntPipe, new ParseEnumPipe(ReportStatusEnum))
+    type: ReportStatusEnum,
     @Param('id', ParseUUIDPipe) id: string,
     @Body() body: modifyReportsBodyDto,
   ) {

@@ -1,4 +1,3 @@
-import { type } from 'os';
 import { IReportDetailsModel } from './models/i-report-details.model';
 import { ReportStatusEnum } from './models/report-status.enum';
 import { data } from './data';
@@ -7,7 +6,6 @@ import { v4 as uuid } from 'uuid';
 
 @Injectable()
 export class AppService {
-
   allReports(type: ReportStatusEnum) {
     return data.filter((f) => f.status === type);
   }
