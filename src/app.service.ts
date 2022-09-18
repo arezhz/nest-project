@@ -3,16 +3,20 @@ import { ReportStatusEnum } from './models/report-status.enum';
 import { data } from './data';
 import { Injectable } from '@nestjs/common';
 import { v4 as uuid } from 'uuid';
+import { ReportResponseDto } from './dtos/report-response.dto';
 
 @Injectable()
 export class AppService {
-  allReports(type: ReportStatusEnum) {
-    return data.filter((f) => f.status === type);
+  allReports(type: ReportStatusEnum): ReportResponseDto[] {
+    return data
+      .filter((f) => f.status === type)
+      .map((m) => new ReportResponseDto(m));
   }
 
-  reportByID(type: ReportStatusEnum, id: string) {
+  reportByID(type: ReportStatusEnum, id: string): ReportResponseDto {
     const dataList = data.filter((f) => f.status === type);
-    return dataList.find((f) => f.uuid === id) || {};
+    const result = dataList.find((f) => f.uuid === id) || {};
+    return new ReportResponseDto(result);
   }
 
   addNewReport(type: ReportStatusEnum, body: { title: string }) {

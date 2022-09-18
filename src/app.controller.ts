@@ -12,6 +12,7 @@ import {
 } from '@nestjs/common';
 import { ParseIntPipe, ParseUUIDPipe } from '@nestjs/common/pipes';
 import { createReportsBodyDto, modifyReportsBodyDto } from './dtos/reports.dto';
+import { ReportResponseDto } from './dtos/report-response.dto';
 
 @Controller('report/:type')
 export class AppController {
@@ -21,7 +22,7 @@ export class AppController {
   getReports(
     @Param('type', ParseIntPipe, new ParseEnumPipe(ReportStatusEnum))
     type: ReportStatusEnum,
-  ) {
+  ): ReportResponseDto[] {
     return this.appService.allReports(type);
   }
 
